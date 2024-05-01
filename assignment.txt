@@ -1,0 +1,21 @@
+The main goal of this test assignment is to implement a simple recorder/player of camera movement trajectory.
+
+Prerequisites:
+
+* A camera that is always looking at some target object (a simple cube).
+* That camera could rotate around this cube at a constant radius in all directions (on the surface of an imaginary sphere).
+
+You should create a simple UI with the possibility to:
+
+* Rotate that camera by finger/mouse.
+* Record camera movement trajectory.
+* Preview/Play recorded camera trajectory.
+
+Would be a plus, but not necessary:
+
+* Save this recording persistently.
+* Save multiple recordings.
+* Load and play recorded camera movement in a separate scene.
+* Show recorded trajectory in the Editor using gismos.
+
+We recommend using default Unity UI and packages for this task, though any open-source plugins or enhancements are allowed.
