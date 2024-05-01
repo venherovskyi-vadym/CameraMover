@@ -32,6 +32,7 @@ public class MoveRecord
     {
         _serializedMoveEntries = new MoveEntry[_moveEntriesCache.Count];
         _moveEntriesCache.CopyTo(_serializedMoveEntries, 0);
+        _moveEntriesCache.Clear();
     }
 
     public MoveEntry[] GetMoveEntries() => _serializedMoveEntries;

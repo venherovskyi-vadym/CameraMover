@@ -97,4 +97,10 @@ public class MainContext : MonoBehaviour
         _persistantRecordsProvider.AddRecordsFromPersistantData();
         _recordSelector.FillDropDownFrom(_moveRecordsStorage);
     }
+
+    private void OnDestroy()
+    {
+        _playStopButton.OnClicked -= StartStopPlayback;
+        _recordStopButton.OnClicked -= RecordStop;
+    }
 }
