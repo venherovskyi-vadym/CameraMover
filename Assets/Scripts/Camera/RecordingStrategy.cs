@@ -11,7 +11,6 @@ public class RecordStrategy : ICameraStrategy
     private readonly MoveRecord _moveRecord = new MoveRecord();
     private readonly MoveRecordsStorage _moveRecordsStorage;
     private readonly IInputSource _inputSource;
-    private Vector3 _oldCameraPosition;
     private float _startTime;
     private bool _inited;
 
@@ -28,7 +27,6 @@ public class RecordStrategy : ICameraStrategy
         _moveRecord.TargetPosition = _target.position;
         _moveRecord.RecordName = DateTime.Now.ToString();
         _startTime = time;
-        _oldCameraPosition = _camera.position;
         _inited = true;
         _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Time = 0});
     }
@@ -41,11 +39,9 @@ public class RecordStrategy : ICameraStrategy
         }
 
         var input = _inputSource.GetInput();
-        //if ((_camera.position - _oldCameraPosition).magnitude > _minDiffMagnitudeToRecord)
         if (input.sqrMagnitude > _minDiffMagnitudeToRecord)
         {
             _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Time = time - _startTime});
-            _oldCameraPosition = _camera.position;
         }
     }
 
