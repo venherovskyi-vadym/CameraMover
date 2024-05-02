@@ -30,7 +30,7 @@ public class RecordStrategy : ICameraStrategy
         _startTime = time;
         _oldCameraPosition = _camera.position;
         _inited = true;
-        _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Time = 0, Input = _inputSource.GetInput() });
+        _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Time = 0});
     }
 
     public void Update(float time)
@@ -44,7 +44,7 @@ public class RecordStrategy : ICameraStrategy
         //if ((_camera.position - _oldCameraPosition).magnitude > _minDiffMagnitudeToRecord)
         if (input.sqrMagnitude > _minDiffMagnitudeToRecord)
         {
-            _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Time = time - _startTime, Input = _inputSource.GetInput() });
+            _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Time = time - _startTime});
             _oldCameraPosition = _camera.position;
         }
     }
