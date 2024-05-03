@@ -1,25 +1,36 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using System.IO;
+using System.Collections.Generic;
 
 public class RecordStrategy : ICameraStrategy
 {
-    private const float _minDiffMagnitudeToRecord = 0.0001f;
     private readonly Transform _camera;
     private readonly Transform _target;
     private readonly MoveRecord _moveRecord = new MoveRecord();
     private readonly MoveRecordsStorage _moveRecordsStorage;
-    private readonly IInputSource _inputSource;
     private float _startTime;
     private bool _inited;
+    private char[] _invalidFileNameChars;
 
-    public RecordStrategy(Transform camera, Transform target, MoveRecordsStorage moveRecordsStorage, IInputSource inputSource)
+    public RecordStrategy(Transform camera, Transform target, MoveRecordsStorage moveRecordsStorage)
     {
         _camera = camera;
         _target = target;
         _moveRecordsStorage = moveRecordsStorage;
-        _inputSource = inputSource;
+        var invalidFileNameChars = new List<char>(Path.GetInvalidPathChars());
+
+        foreach (var invalidChar in Path.GetInvalidFileNameChars())
+        {
+            if (invalidFileNameChars.Contains(invalidChar))
+            {
+                continue;
+            }
+
+            invalidFileNameChars.Add(invalidChar);
+        }
+
+        _invalidFileNameChars = invalidFileNameChars.ToArray();
     }
 
     public void Init(float time)
@@ -38,11 +49,7 @@ public class RecordStrategy : ICameraStrategy
             return;
         }
 
-        var input = _inputSource.GetInput();
-        if (input.sqrMagnitude > _minDiffMagnitudeToRecord)
-        {
-            _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Time = time - _startTime});
-        }
+        _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Time = time - _startTime });
     }
 
     public void Finish()
@@ -50,7 +57,19 @@ public class RecordStrategy : ICameraStrategy
         _moveRecord.Save();
         _moveRecordsStorage.AddRecord(_moveRecord);
         var json = JsonUtility.ToJson(_moveRecord);
-        var fileName = _moveRecord.RecordName.Replace(':', '-');
+        var fileName = _moveRecord.RecordName;
+
+
+        foreach (var invalidChar in _invalidFileNameChars) 
+        {
+            fileName = fileName.Replace(invalidChar, '-');
+        }
+
+        if (!Directory.Exists(Application.persistentDataPath))
+        { 
+            Directory.CreateDirectory(Application.persistentDataPath);
+        }
+
         var path = Path.Combine(Application.persistentDataPath, $"{fileName}.json");
         File.WriteAllText(path, json);
     }

@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class MainContext : MonoBehaviour
 {
@@ -70,7 +66,7 @@ public class MainContext : MonoBehaviour
         new ICameraStrategy[]
             {
                     new UserControlStrategy(_camera, _target, _inputSource, _distanceSetting),
-                    new RecordStrategy(_camera, _target, _moveRecordsStorage, _inputSource)
+                    new RecordStrategy(_camera, _target, _moveRecordsStorage)
             });
         _strategy.Init(Time.time);
     }

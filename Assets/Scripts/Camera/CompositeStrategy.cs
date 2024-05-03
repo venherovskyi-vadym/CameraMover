@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class CompositeStrategy : ICameraStrategy
 {
     private readonly ICameraStrategy[] _strategies;
