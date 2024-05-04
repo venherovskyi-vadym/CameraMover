@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -12,23 +13,64 @@ public class PersistentRecordsProvider
 
     public void AddRecordsFromPersistantData()
     {
+        var moveRecords = GetRecordsFromPersistantData();
+
+        if(moveRecords == null)
+        {
+            return;
+        }
+
+        foreach (var item in moveRecords)
+        {
+            _moveRecordsStorage.RemoveRecord(item.RecordName);
+            _moveRecordsStorage.AddRecord(item);
+        }
+    }
+
+    private MoveRecord[] GetRecordsFromPersistantData()
+    {
+        if (!Directory.Exists(Application.persistentDataPath))
+        {
+            return null;
+        }
+
+        List<MoveRecord> result = new List<MoveRecord>();
         var persistantDataFiles = new DirectoryInfo(Application.persistentDataPath).GetFiles();
 
-        for (int i = 0; i < persistantDataFiles.Length; i++) 
+        for (int i = 0; i < persistantDataFiles.Length; i++)
         {
-            if (persistantDataFiles[i].Extension != ".json")
+            MoveRecord record = GetRecordsFromFileInfo(persistantDataFiles[i]);
+
+            if (record != null)
             {
-                continue;
-            }
-
-            var json = File.ReadAllText(persistantDataFiles[i].FullName);
-            var record = JsonUtility.FromJson<MoveRecord>(json);
-
-            if (record != null) 
-            { 
-                _moveRecordsStorage.RemoveRecord(record.RecordName);
-                _moveRecordsStorage.AddRecord(record);
+                result.Add(record);
             }
         }
+
+        return result.ToArray();
+    }
+
+
+    /// Static modifier is for access from TrajectoryDrawer
+    public static MoveRecord GetRecordsFromFileInfo(FileInfo fileInfo)
+    {
+        if (fileInfo.Extension != ".json")
+        {
+            return null;
+        }
+
+        var json = File.ReadAllText(fileInfo.FullName);
+        MoveRecord record;
+
+        try
+        {
+            record = JsonUtility.FromJson<MoveRecord>(json);
+        }
+        catch
+        {
+            return null;
+        }
+
+        return record;
     }
 }

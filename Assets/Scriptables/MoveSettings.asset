@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _horizontalAxis: Mouse X
   _verticalAxis: Mouse Y
-  _sensitivityX: -0.2
-  _sensitivityY: -0.1
+  _inverseX: 1
+  _inverseY: 1
+  _sensitivityX: 7.41
+  _sensitivityY: 10

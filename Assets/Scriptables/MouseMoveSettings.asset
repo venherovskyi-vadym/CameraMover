@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da74af048cf952e44aa88721b9261cdd, type: 3}
   m_Name: MouseMoveSettings
   m_EditorClassIdentifier: 
-  _distanceToTarget: 10
-  _sensitivityX: -2
-  _sensitivityY: -1
-  _oldMousePos: {x: 344, y: 146, z: 0}
+  _inverseX: 1
+  _inverseY: 1
+  _sensitivityX: 100
+  _sensitivityY: 100
+  _oldMousePos: {x: 608, y: 632, z: 0}
