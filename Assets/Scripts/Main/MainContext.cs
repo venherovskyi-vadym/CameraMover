@@ -22,8 +22,8 @@ public class MainContext : MonoBehaviour
         _recordSelector.FillDropDownFrom(_moveRecordsStorage);
 
         _strategy = new CompositeStrategy(
-            new ICameraStrategy[] 
-                { 
+            new ICameraStrategy[]
+                {
                     new UserControlStrategy(_camera, _target, _inputSource, _distanceSetting)
                 });
         _strategy.Init(Time.time);
@@ -55,9 +55,9 @@ public class MainContext : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        _strategy.Update(Time.time);
+        _strategy.Update(Time.time, Time.fixedDeltaTime);
     }
 
     private void StartRecord()
@@ -76,7 +76,7 @@ public class MainContext : MonoBehaviour
         _strategy = new CompositeStrategy(
         new ICameraStrategy[]
             {
-                    new PlaybackStrategy(_camera, _target, _distanceSetting, _recordSelector.GetRecord())
+                    new PlaybackStrategy(_camera, _target, _recordSelector.GetRecord())
             });
         _strategy.Init(Time.time);
     }

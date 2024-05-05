@@ -19,19 +19,20 @@ public class UserControlStrategy : ICameraStrategy
     {
     }
 
-    public void Update(float time)
+    public void Update(float time, float deltaTime)
     {
         if (_camera == null || _target == null)
         {
             return;
         }
 
-        _camera.Translate(_inputSource.GetInput() * _distanceSetting.Distance);
+        _camera.Translate(_inputSource.GetInput() * _distanceSetting.Distance * deltaTime);
 
         var fromTargetToCamera = _target.position - _camera.position;
         _camera.position = _target.position - fromTargetToCamera.normalized * _distanceSetting.Distance;
         _camera.LookAt(_target);
     }
+
     public void Finish()
     {
     }

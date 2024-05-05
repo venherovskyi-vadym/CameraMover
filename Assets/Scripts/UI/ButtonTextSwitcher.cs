@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonTextSwitcher : MonoBehaviour 
+public class ButtonTextSwitcher : MonoBehaviour
 {
     [SerializeField] private Button _button;
     [SerializeField] private TextMeshProUGUI _text;
@@ -28,7 +28,7 @@ public class ButtonTextSwitcher : MonoBehaviour
         {
             _text.text = _altLabel;
         }
-        else 
+        else
         {
             _text.text = _defaultLabel;
         }

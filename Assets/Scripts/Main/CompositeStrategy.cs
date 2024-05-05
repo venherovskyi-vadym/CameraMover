@@ -15,13 +15,14 @@ public class CompositeStrategy : ICameraStrategy
         }
     }
 
-    public void Update(float time)
+    public void Update(float time, float timeDelta)
     {
         for (int i = 0; i < _strategies.Length; i++)
         {
-            _strategies[i].Update(time);
+            _strategies[i].Update(time, timeDelta);
         }
     }
+
     public void Finish()
     {
         for (int i = 0; i < _strategies.Length; i++)

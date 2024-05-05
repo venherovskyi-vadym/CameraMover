@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class RecordSelector : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class RecordSelector : MonoBehaviour
     {
         _moveRecordsStorage = moveRecordsStorage;
         _dropdown.ClearOptions();
-        var options =_moveRecordsStorage.MoveRecords.ConvertAll(ca => new TMP_Dropdown.OptionData(ca.RecordName));
+        var options = _moveRecordsStorage.MoveRecords.ConvertAll(ca => new TMP_Dropdown.OptionData(ca.RecordName));
         _dropdown.AddOptions(options);
     }
 

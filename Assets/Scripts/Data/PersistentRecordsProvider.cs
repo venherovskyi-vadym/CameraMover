@@ -15,7 +15,7 @@ public class PersistentRecordsProvider
     {
         var moveRecords = GetRecordsFromPersistantData();
 
-        if(moveRecords == null)
+        if (moveRecords == null)
         {
             return;
         }

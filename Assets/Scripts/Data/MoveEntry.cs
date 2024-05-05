@@ -2,8 +2,8 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class MoveEntry
+public struct MoveEntry
 {
     public Vector3 Position;
-    public float Time;
+    public int Frame;
 }

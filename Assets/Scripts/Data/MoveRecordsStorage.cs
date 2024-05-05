@@ -13,7 +13,7 @@ public class MoveRecordsStorage : ScriptableObject
         _moveRecords.Add(record);
     }
 
-    public void RemoveRecord(string recordName) 
+    public void RemoveRecord(string recordName)
     {
         _moveRecords.RemoveAll(ra => ra.RecordName.Equals(recordName));
     }

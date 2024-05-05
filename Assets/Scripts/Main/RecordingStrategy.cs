@@ -1,7 +1,7 @@
 using System;
-using UnityEngine;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
 
 public class RecordStrategy : ICameraStrategy
 {
@@ -9,7 +9,6 @@ public class RecordStrategy : ICameraStrategy
     private readonly Transform _target;
     private readonly MoveRecord _moveRecord = new MoveRecord();
     private readonly MoveRecordsStorage _moveRecordsStorage;
-    private float _startTime;
     private bool _inited;
     private char[] _invalidFileNameChars;
 
@@ -36,20 +35,20 @@ public class RecordStrategy : ICameraStrategy
     public void Init(float time)
     {
         _moveRecord.TargetPosition = _target.position;
+        _moveRecord.SampleRate = Time.fixedDeltaTime;
         _moveRecord.RecordName = DateTime.Now.ToString();
-        _startTime = time;
         _inited = true;
-        _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Time = 0});
+        _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Frame = 0 });
     }
 
-    public void Update(float time)
+    public void Update(float time, float timeDelta)
     {
         if (!_inited)
         {
             return;
         }
 
-        _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Time = time - _startTime });
+        _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Frame = (int)(time / _moveRecord.SampleRate) });
     }
 
     public void Finish()
@@ -60,13 +59,13 @@ public class RecordStrategy : ICameraStrategy
         var fileName = _moveRecord.RecordName;
 
 
-        foreach (var invalidChar in _invalidFileNameChars) 
+        foreach (var invalidChar in _invalidFileNameChars)
         {
             fileName = fileName.Replace(invalidChar, '-');
         }
 
         if (!Directory.Exists(Application.persistentDataPath))
-        { 
+        {
             Directory.CreateDirectory(Application.persistentDataPath);
         }
 
