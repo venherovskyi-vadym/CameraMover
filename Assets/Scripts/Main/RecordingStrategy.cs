@@ -10,6 +10,7 @@ public class RecordStrategy : ICameraStrategy
     private readonly MoveRecord _moveRecord = new MoveRecord();
     private readonly MoveRecordsStorage _moveRecordsStorage;
     private bool _inited;
+    private float _startTime;
     private char[] _invalidFileNameChars;
 
     public RecordStrategy(Transform camera, Transform target, MoveRecordsStorage moveRecordsStorage)
@@ -38,6 +39,7 @@ public class RecordStrategy : ICameraStrategy
         _moveRecord.SampleRate = Time.fixedDeltaTime;
         _moveRecord.RecordName = DateTime.Now.ToString();
         _inited = true;
+        _startTime = time;
         _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Frame = 0 });
     }
 
@@ -48,7 +50,7 @@ public class RecordStrategy : ICameraStrategy
             return;
         }
 
-        _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Frame = (int)(time / _moveRecord.SampleRate) });
+        _moveRecord.AddEntry(new MoveEntry() { Position = _camera.position, Frame = (int)((time - _startTime) / _moveRecord.SampleRate) });
     }
 
     public void Finish()
