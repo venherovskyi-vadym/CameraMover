@@ -4,7 +4,7 @@ using System.Linq;
 /// <summary>
 /// Original code was found https://swharden.com/blog/2022-01-22-spline-interpolation/
 /// Original was modified to work with 3 sets of coordinates instead of 2 sets,
-/// reduced accuracy from float to float, added safe division and added filtration for minitessimal distances
+/// reduced accuracy from float to float, added safe division
 /// </summary>
 public static class Cubic
 {
